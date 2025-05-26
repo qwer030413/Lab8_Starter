@@ -33,6 +33,29 @@ async function init() {
  * of installing it and getting it running
  */
 function initializeServiceWorker() {
+  // b1
+  if ("serviceWorker" in navigator) {
+    //b2
+    window.addEventListener('load', () =>{
+      //b3
+      navigator.serviceWorker.register("./sw.js").then(
+      (registration) => {
+        // b4
+        console.log("works:", registration);
+      },
+      (error) => {
+        // b5
+        console.error(`fail: ${error}`);
+      },
+    );
+      
+    })
+  }
+  else {
+  
+    console.error("Service workers doesnt exist or not supported");
+  }
+
   // EXPLORE - START (All explore numbers start with B)
   /*******************/
   // ServiceWorkers have many uses, the most common of which is to manage
@@ -65,6 +88,45 @@ function initializeServiceWorker() {
  * @returns {Array<Object>} An array of recipes found in localStorage
  */
 async function getRecipes() {
+  // a1
+  let data = localStorage.getItem('recipes');
+  if(data){
+    // return data
+    return JSON.parse(data);
+  }
+  // a2
+  let recepies = []
+
+  // a3
+  return new Promise(async (res, reject) => {
+    // a4
+    for(let i of RECIPE_URLS){
+      // a5
+      try{
+        // a6
+        let response = await fetch(i)
+        // a7
+        let resData = await response.json()
+
+        // a8
+        recepies.push(resData)
+
+        // a9
+        if(recepies.length === RECIPE_URLS.length){
+          // I thought it was spelled recepies
+          localStorage.setItem('recipes', JSON.stringify(recepies))
+          resolve(recepies)
+        }
+      }catch(error){
+        // a10
+        console.log(error)
+
+        // a11
+        reject(error)
+      }
+    }
+  })
+
   // EXPOSE - START (All expose numbers start with A)
   // A1. TODO - Check local storage to see if there are any recipes.
   //            If there are recipes, return them.
