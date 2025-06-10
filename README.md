@@ -1,5 +1,6 @@
 # Lab8-Starter
 
+Github Pages Link: https://qwer030413.github.io/Lab8_Starter/ 
 
 ### In your README.md, please add a short paragraph answering the question: How are graceful degradation and service workers related? (Answer this after doing the part below)  
 I think they are related because they both help users can still use the functionality of the website even when parts of it is not working such as connection.  
